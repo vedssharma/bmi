@@ -5,6 +5,13 @@ class Result extends StatelessWidget {
   final double bmi;
   @override
   Widget build(BuildContext context) {
+    String message = bmi < 18.5
+        ? "Underweight"
+        : bmi >= 18.5 && bmi <= 24.9
+            ? "Normal Weight"
+            : bmi >= 25 && bmi <= 29.9
+                ? "Overweight"
+                : "Obese";
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
@@ -21,7 +28,7 @@ class Result extends StatelessWidget {
           Text(bmi.toStringAsFixed(1),
               style:
                   const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-          const Text("You are normal"),
+          Text(message),
           ElevatedButton(
               onPressed: () => {Navigator.of(context).pop()},
               child: const Text("Recalculate BMI"))
