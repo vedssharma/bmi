@@ -35,7 +35,24 @@ class HomeState extends State<Home> {
     setState(
       () => {
         weightUnit = unit,
-        if (unit == "kg") {heightUnit = "cm"} else {heightUnit = "in"}
+        if (unit == "kg")
+          {
+            heightUnit = "cm",
+            weightController.text =
+                (double.parse(weightController.text) * 0.45).round().toString(),
+            heightController.text =
+                (double.parse(heightController.text) * 2.54).round().toString()
+          }
+        else
+          {
+            heightUnit = "in",
+            weightController.text =
+                (double.parse(weightController.text) * 2.205)
+                    .round()
+                    .toString(),
+            heightController.text =
+                (double.parse(heightController.text) * 0.394).round().toString()
+          }
       },
     );
   }
@@ -43,7 +60,30 @@ class HomeState extends State<Home> {
   handleHeightUnitChange(unit) {
     setState(() => {
           heightUnit = unit,
-          if (unit == "cm") {weightUnit = "kg"} else {weightUnit = "lb"}
+          if (unit == "cm")
+            {
+              weightUnit = "kg",
+              weightController.text =
+                  (double.parse(weightController.text) * 0.45)
+                      .round()
+                      .toString(),
+              heightController.text =
+                  (double.parse(heightController.text) * 2.54)
+                      .round()
+                      .toString()
+            }
+          else
+            {
+              weightUnit = "lb",
+              weightController.text =
+                  (double.parse(weightController.text) * 2.205)
+                      .round()
+                      .toString(),
+              heightController.text =
+                  (double.parse(heightController.text) * 0.394)
+                      .round()
+                      .toString()
+            }
         });
   }
 
@@ -106,8 +146,29 @@ class HomeState extends State<Home> {
               ),
               ElevatedButton(
                   onPressed: () => {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Result(bmi: calculateBmi())))
+                        if (weightController.text == "" ||
+                            heightController.text == "")
+                          {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: const Text("Error"),
+                                      content: const Text("Missing value(s)"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ))
+                          }
+                        else
+                          {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Result(bmi: calculateBmi())))
+                          }
                       },
                   child: const Text("Calculate my BMI"))
             ],
