@@ -91,7 +91,13 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BMI Calculator"),
+        title: const Hero(
+          tag: "appBarTitle",
+          child: Text(
+            "BMI Calculator",
+            style: TextStyle(fontSize: 20, color: Colors.white), // Ensuring consistent style for Hero
+          ),
+        ),
       ),
       body: Container(
           alignment: Alignment.topCenter,
